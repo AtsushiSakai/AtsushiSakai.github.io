@@ -1,3 +1,6 @@
+
+var sumstars = 0
+
 function appendToWidget(parentSelector, tag, classes, html) {
     var parentNode = document.querySelector(parentSelector);
     var childNode = document.createElement(tag);
@@ -36,12 +39,13 @@ function start() {
     for (var i = 0; i < widgets.length; i++) {
         var parentNode = widgets[i];
         parentNode.setAttribute("id", "widget" + i);
-        appendToWidget("#widget" + i, "div", "", '<div class="gh-widget-container"><div class="gh-widget-item gh-widget-photo"></div><div class="gh-widget-item gh-widget-personal-details"></div></div><div class="gh-widget-container gh-widget-stats"></div><hr class="gh-widget-hr"><div class="gh-widget-container"><div class="gh-widget-item gh-widget-heading">Top repositories</div></div><div class="gh-widget-repositories"></div><div class="gh-widget-container"><div class="gh-widget-item gh-widget-follow"></div><div class="gh-widget-item gh-widget-active-time"></div></div>')
 
         var username = parentNode.dataset.username;
 
         fetchRepos(username, "#widget" + i);
         fetchUserDetails(username, "#widget" + i);
+
+        appendToWidget("#widget" + i, "div", "", '<div class="gh-widget-container"><div class="gh-widget-item gh-widget-photo"></div><div class="gh-widget-item gh-widget-personal-details"></div></div><div class="gh-widget-container gh-widget-stats"></div><hr class="gh-widget-hr"><div class="gh-widget-container"><div class="gh-widget-item gh-widget-heading">Top repositories</div></div><div class="gh-widget-repositories"></div><div class="gh-widget-container"><div class="gh-widget-item gh-widget-follow"></div><div class="gh-widget-item gh-widget-active-time"></div></div>')
     }
 }
 
@@ -67,7 +71,7 @@ function fetchUserDetails(username, widgetId) {
 
 
 function updateLastPush(lastDay, widgetId) {
-    appendToWidget(widgetId + " .gh-widget-active-time", "span", "", 'Last active: ' + (lastDay ? lastDay + ' day(s) ago' : 'Today'));
+    appendToWidget(widgetId + " .gh-widget-active-time", "span", "", 'Last active: ' + (lastDay ? lastDay + ' day(s) ago' : 'Today' + ", Sum of stars:"+sumstars));
 }
 
 
@@ -123,6 +127,12 @@ function topRepos(repos) {
             return 1;
         }
     })
+
+    for (var i in repos) {
+        var repo = repos[i];
+        sumstars+=repo.stargazers_count;
+    }
+    // alert(sumstars);
 
     repos = repos.slice(0, 5);
     var result = [];
