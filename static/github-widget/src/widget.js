@@ -71,7 +71,7 @@ function fetchUserDetails(username, widgetId) {
 
 
 function updateLastPush(lastDay, widgetId) {
-    appendToWidget(widgetId + " .gh-widget-active-time", "span", "", 'Last active: ' + (lastDay ? lastDay + ' day(s) ago' : 'Today' + ", Sum of stars:"+sumstars));
+    appendToWidget(widgetId + " .gh-widget-active-time", "span", "", "Sum of stars:"+sumstars+', Last active: ' + (lastDay ? lastDay + ' day(s) ago' : 'Today' + ));
 }
 
 
