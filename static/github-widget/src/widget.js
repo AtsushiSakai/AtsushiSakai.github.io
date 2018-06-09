@@ -134,7 +134,7 @@ function topRepos(repos) {
     }
     // alert(sumstars);
 
-    repos = repos.slice(0, 5);
+    repos = repos.slice(0, 10);
     var result = [];
     for (var i in repos) {
         var repo = repos[i];
