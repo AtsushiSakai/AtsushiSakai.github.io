@@ -54,11 +54,25 @@ ready(start);
 
 
 function fetchRepos(username, widgetId) {
-    var url = "https://api.github.com/users/" + username + "/repos?per_page=1000";
-    getJSON(url, function(response) {
-        updateRepoDetails(topRepos(response), widgetId);
-        updateLastPush(lastPushedDay(response), widgetId);
+
+    var url1 = "https://api.github.com/users/" + username + "/repos?page=1&per_page=1000";
+    var url2 = "https://api.github.com/users/" + username + "/repos?page=2&per_page=1000";
+    getJSON(url1, function(response1) {
+        getJSON(url2, function(response2) {
+
+            var repos = [];
+            for(key in response1){
+                repos.push(response1[key]);
+            }
+            for(key in response2){
+                repos.push(response2[key]);
+            }
+            updateRepoDetails(topRepos(repos), widgetId);
+            updateLastPush(lastPushedDay(repos), widgetId);
+        });
     });
+
+    //console.log(repos);
 }
 
 
@@ -132,6 +146,7 @@ function topRepos(repos) {
         var repo = repos[i];
         sumstars+=repo.stargazers_count;
     }
+    console.log(repos.length);
     // alert(sumstars);
 
     repos = repos.slice(0, 10);
